@@ -11,12 +11,12 @@ public class Main {
         double c = console.nextDouble();
 
         class Discriminant{
-            public double value_search(double a, double b, double c){
+            public double value_search(){
                 return  (Math.pow(b,2) - 4*a*c);
             }
         }
         Discriminant dd = new Discriminant();
-        double d = dd.value_search(a,b,c);
+        double d = dd.value_search();
 
         if (d > 0) {
             double root1;

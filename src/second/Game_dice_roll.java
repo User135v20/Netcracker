@@ -6,16 +6,17 @@ public class Game_dice_roll{
     public static void main(String[] args) {
 
         class Round{
-            class Dice_roll{
-                public int dice_roll(int K) {
-                    Random r = new Random();
-                    int sum=0;
-                    for (int attempt = 0; attempt<K;attempt++) sum = sum + r.nextInt(6) + 1;
-                    return sum;
-                }
-            }
-
             public int find_winner(int index,int K, int N){
+
+                class Dice_roll{
+                    public int dice_roll() {
+                        Random r = new Random();
+                        int sum=0;
+                        for (int attempt = 0; attempt<K;attempt++) sum = sum + r.nextInt(6) + 1;
+                        return sum;
+                    }
+                }
+
                 int winner = -1,player,max = 0;
                 boolean equal_value = false;
                 int [] players = new int [N];
@@ -26,7 +27,7 @@ public class Game_dice_roll{
                     } else {
                         player = index + i;
                     }
-                    players[player] = dr.dice_roll(K);
+                    players[player] = dr.dice_roll();
                     System.out.println("user_"+(player+1)+" |"+players[player]+"| ");
 
                     if (players[player] == max) {
@@ -47,7 +48,9 @@ public class Game_dice_roll{
         }
         Scanner console = new Scanner(System.in);
         int winner = 0, result_round;
+        System.out.println("please enter K: ");
         int K = console.nextInt();
+        System.out.println("please enter N: ");
         int N = console.nextInt();
         int [] user_wins = new int[N];
 
@@ -61,12 +64,11 @@ public class Game_dice_roll{
             else {
                 winner = result_round;
                 user_wins[winner] = user_wins[winner] + 1;
-                if (user_wins[winner] == 4){
+                if (user_wins[winner] == 7){
                     break;
                 }
             }
         }
-
         System.out.println("\n|WINNER| " + (winner+1));
     }
 }
