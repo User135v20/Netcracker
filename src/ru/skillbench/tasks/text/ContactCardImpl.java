@@ -32,7 +32,7 @@ public class ContactCardImpl implements ContactCard {
 
         String str1 = scanner.nextLine();
         if (str1.startsWith("FN")) {
-            if (str1.startsWith("FN:") && str1.substring(3).isEmpty()==false){
+            if (str1.startsWith("FN:")){
                 FN = str1.substring(3);
             }
             else throw new InputMismatchException();
@@ -48,10 +48,7 @@ public class ContactCardImpl implements ContactCard {
         }
         else throw new NoSuchElementException();
 
-        int K=0;
-
         while (true) {
-
             String str = scanner.nextLine();
 
             if (str.startsWith("GENDER")){
@@ -76,8 +73,6 @@ public class ContactCardImpl implements ContactCard {
                 Pattern num_phone = Pattern.compile("[0-9]{10}");
                 if (str.startsWith("TEL;TYPE=") && str.substring(str.indexOf(":")+1).length() == 10 && num_phone.matcher(str.substring(str.indexOf(":")+1)).find() ){
                     TEL.put(str.substring(9, str.indexOf(":")),str.substring(str.indexOf(":")+1));
-                    K++;
-                    if (K!=TEL.size()) throw new InputMismatchException();
                 }
                 else throw new InputMismatchException();
             }
@@ -85,11 +80,8 @@ public class ContactCardImpl implements ContactCard {
             if (str.equals("END:VCARD")){
                 break;
             }
-
         }
-
-        ContactCardImpl card= new ContactCardImpl();
-        return card;
+        return this;
     }
 
     @Override
@@ -103,7 +95,7 @@ public class ContactCardImpl implements ContactCard {
         }
 
         if (row[1].startsWith("FN")) {
-            if (row[1].startsWith("FN:") && row[1].substring(3).isEmpty()==false){
+            if (row[1].startsWith("FN:")){
                 FN = row[1].substring(3);
             }
             else throw new InputMismatchException();
@@ -118,9 +110,7 @@ public class ContactCardImpl implements ContactCard {
         }
         else throw new NoSuchElementException();
 
-        System.out.println(row.length);
 
-        int K=0;
         if (row[row.length-1].equals("END:VCARD")) {
             for (int i = 3; i < row.length-1; i++) {
 
@@ -142,17 +132,14 @@ public class ContactCardImpl implements ContactCard {
                 if (row[i].startsWith("TEL")) {
                     Pattern num_phone = Pattern.compile("[0-9]{10}");
                     if (row[i].startsWith("TEL;TYPE=") && row[i].substring(row[i].indexOf(":") + 1).length() == 10 && num_phone.matcher(row[i].substring(row[i].indexOf(":") + 1)).find()) {
-                        TEL.put(row[i].substring(9, row[i].indexOf(":")), row[i].substring(row[i].indexOf(":") + 1));
-                        K++;
-                        if (K != TEL.size()) throw new InputMismatchException();
+                        TEL.put(row[i].substring(9, row[i].indexOf(":")),row[i].substring(row[i].indexOf(":") + 1));
                     } else throw new InputMismatchException();
                 }
             }
         }
         else throw new NoSuchElementException();
 
-        ContactCardImpl card= new ContactCardImpl();
-        return card;
+        return this;
     }
 
     @Override
@@ -167,7 +154,7 @@ public class ContactCardImpl implements ContactCard {
 
     @Override
     public boolean isWoman() {
-        if (GENDER =="F"){
+        if (GENDER.equals("F")){
             return true;
         }
         else return false;
@@ -179,8 +166,12 @@ public class ContactCardImpl implements ContactCard {
             int day = Integer.parseInt (BDAY.substring(0,2));
             int month = Integer.parseInt (BDAY.substring(3,5));
             int year = Integer.parseInt (BDAY.substring(6,10));
-            Calendar calendar = new GregorianCalendar(day,month,year);
-            return calendar;
+            Calendar calendar = new GregorianCalendar(year,month,day);
+            Calendar calendar1 = Calendar.getInstance();
+            calendar1.getTimeZone();
+            calendar1.set(year,month,day);
+
+            return calendar1;
         }
         else throw new NoSuchElementException();
     }
